@@ -219,36 +219,86 @@
                 <!-- Changed Price to MSRP -->
                 <p class="price">$79</p>
 
-                <!-- NEW: Waitlist Card -->
+                <!-- NEW: Waitlist Card with Progressive Profiling -->
                 <div class="waitlist-card">
-                    <h3>The Smartest, Safest Companion is Coming.</h3>
-                    <p style="font-size: 0.9em; margin-bottom: 20px; line-height: 1.5;">
-                        We’re finalizing the magic. Join the priority waitlist to secure early access, lock in 20% off, and receive our parents' safety guide.
-                    </p>
                     
-                    <!-- New Form -->
-                    <form class="stack-form" onsubmit="handleWaitlist(event)">
+                    <!-- STEP 1: The Contact Form -->
+                    <div id="step-1">
+                        <h3>The Smartest, Safest Companion.</h3>
+                        <p class="waitlist-subtext">
+                            We’re finalizing the magic. Join the priority waitlist to secure early access, lock in 20% off, and receive our parents' safety guide.
+                        </p>
                         
-                        <!-- Name Field (Added) -->
-                        <input class="input-field" type="text" placeholder="Your Name" required>
-                        
-                        <!-- Email Field (Existing) -->
-                        <input class="input-field" type="email" placeholder="Enter your email address" required>
-                        
-                        <!-- Parent Checkbox (Critical Addition) -->
-                        <div class="checkbox-wrapper">
-                            <input type="checkbox" id="parent-check" required>
-                            <label for="parent-check">I am a parent or guardian over 18.</label>
-                        </div>
+                        <form class="stack-form" onsubmit="goToStep2(event)">
+                            <input id="user-name" class="input-field" type="text" placeholder="Your Name" required>
+                            <input class="input-field" type="email" placeholder="Enter your email address" required>
+                            
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="parent-check" required>
+                                <label for="parent-check">I am a parent or guardian over 18.</label>
+                            </div>
 
-                        <!-- Updated Button Text -->
-                        <button type="submit" class="btn btn-hero full-width">Join the Waitlist</button>
-                    </form>
+                            <button type="submit" class="btn btn-hero full-width">Join the Waitlist</button>
+                        </form>
+                    </div>
 
-                    <!-- Success Message (Hidden by default) -->
-                    <div id="waitlist-success" style="display:none; margin-top:15px; background: #e0e7ff; padding:15px; border-radius:12px; text-align:center;">
-                        <p style="margin:0; color:#333; font-weight:600;">You're on the list! 🚀</p>
-                        <p style="margin:5px 0 0 0; font-size:0.85em;">We'll email you when we launch.</p>
+                    <!-- STEP 2: The Survey Form (Hidden Initially) -->
+                    <div id="step-2" style="display: none; animation: fadeIn 0.5s ease;">
+                        <h3>You’re on the list! 🎉</h3>
+                        <p class="waitlist-subtext">
+                            We’ve reserved your 20% discount. To help us customize PuffyPal perfectly for your family, could you answer 2 quick questions?
+                        </p>
+
+                        <form class="stack-form" onsubmit="finishForm(event)">
+                            
+                            <!-- Question 1 -->
+                            <label class="survey-label">Who is this new friend for?</label>
+                            <div class="survey-options">
+                                <label class="radio-card">
+                                    <input type="radio" name="audience" value="toddler" required>
+                                    <span>Toddler (1-3)</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="audience" value="preschool">
+                                    <span>Pre-School (4-6)</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="audience" value="bigkid">
+                                    <span>Big Kid (7+)</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="audience" value="adult">
+                                    <span>Adult / Tech Enthusiast</span>
+                                </label>
+                            </div>
+
+                            <!-- Question 2 -->
+                            <label class="survey-label" style="margin-top:15px;">What is your #1 hope for an AI toy?</label>
+                            <div class="survey-options">
+                                <label class="radio-card">
+                                    <input type="radio" name="hope" value="bedtime" required>
+                                    <span>Bedtime Buddy (Stories & Sleep)</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="hope" value="tutor">
+                                    <span>Learning Tutor (Math, Facts)</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="hope" value="emotional">
+                                    <span>Emotional Companion (Anxiety)</span>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-hero full-width">Submit & Lock in Discount</button>
+                        </form>
+                    </div>
+
+                    <!-- STEP 3: Final Success Message (Hidden Initially) -->
+                    <div id="step-3" style="display:none; text-align:center; padding: 20px 0; animation: fadeIn 0.5s ease;">
+                        <div style="font-size: 3rem; color: #10B981; margin-bottom: 10px;"><i class="fa-solid fa-circle-check"></i></div>
+                        <h3 style="margin-bottom:10px;">All Set!</h3>
+                        <p style="color:#555;">Your preferences have been saved and your discount is locked.</p>
+                        <p style="font-size: 0.85em; margin-top: 15px; color:#888;">Keep an eye on your inbox!</p>
                     </div>
                 </div>
 
@@ -359,12 +409,24 @@
         }
 
         // --- NEW JS for Waitlist Form ---
-        function handleWaitlist(e) {
-            e.preventDefault(); // Stop page refresh
-            // Hide form
-            document.querySelector('.stack-form').style.display = 'none';
-            // Show Success
-            document.getElementById('waitlist-success').style.display = 'block';
+       function goToStep2(e) {
+            e.preventDefault(); // 1. STOPS the page from reloading
+            
+            // 2. Hide Step 1
+            document.getElementById('step-1').style.display = 'none';
+            
+            // 3. Show Step 2
+            document.getElementById('step-2').style.display = 'block';
+        }
+
+        function finishForm(e) {
+            e.preventDefault(); // Stops reload
+            
+            // Hide Step 2
+            document.getElementById('step-2').style.display = 'none';
+            
+            // Show Step 3
+            document.getElementById('step-3').style.display = 'block';
         }
     </script>
 </body>

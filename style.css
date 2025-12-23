@@ -1208,3 +1208,72 @@ body {
     line-height: 1.4;
     user-select: none;
 }
+
+/* --- Waitlist Text --- */
+.waitlist-subtext {
+    font-size: 0.9em; 
+    margin-bottom: 20px; 
+    line-height: 1.5;
+    color: #555;
+}
+
+/* --- Survey Styling --- */
+.survey-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.survey-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* The Radio Card Logic */
+.radio-card {
+    position: relative;
+    cursor: pointer;
+}
+
+/* Hide the actual ugly radio circle */
+.radio-card input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* The visual box */
+.radio-card span {
+    display: block;
+    padding: 10px 15px;
+    border: 1px solid #D1D5DB;
+    border-radius: 10px;
+    background: white;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #444;
+    transition: all 0.2s ease;
+}
+
+/* Hover Effect */
+.radio-card:hover span {
+    border-color: #9597D8;
+    background: #EEF2FF;
+}
+
+/* Selected State (Purple) */
+.radio-card input:checked + span {
+    background-color: #9597D8; /* Brand Purple */
+    color: white;
+    border-color: #9597D8;
+    box-shadow: 0 4px 6px rgba(149, 151, 216, 0.2);
+}
+
+/* Animation for smooth page switch */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
