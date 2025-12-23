@@ -1,0 +1,1210 @@
+/* --- Global Resets --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* Old: font-family: 'Poppins', sans-serif; */
+    font-family: 'Nunito', sans-serif; 
+    color: #1F1F1F;
+    overflow-x: hidden;
+}
+
+/* --- Color Variables --- */
+:root {
+    --bg-purple: #EEF2FF; /* Light lavender background */
+    --btn-purple: #9597D8; /* The button color */
+    --text-dark: #222222;
+    --text-grey: #555555;
+}
+
+/* --- Hero Wrapper --- */
+.hero-wrapper {
+    background-color: var(--bg-purple);
+    width: 100%;
+    min-height: 90vh; /* Takes up most of the screen */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding-bottom: 50px;
+}
+
+/* --- Floating Sticky Header --- */
+.floating-navbar {
+    /* 1. Fix position to the window */
+    position: fixed;
+    top: 20px; 
+    left: 50%;
+    
+    /* 2. Center it perfectly */
+    transform: translateX(-50%);
+    
+    /* 3. Ensure it stays on top of other content (images, cards) */
+    z-index: 1000;
+    
+    /* Existing Styles */
+    background: rgba(255, 255, 255, 0.95); /* Slight transparency looks nice */
+    backdrop-filter: blur(10px); /* Adds a modern 'frosted glass' blur */
+    width: 90%;
+    max-width: 1200px;
+    padding: 15px 30px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.logo {
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #222;
+}
+
+.logo-brand svg,
+.logo-img,
+.logo-link img {
+    height: 28px; /* Reduced from 40px */
+    width: auto;  /* Keeps the shapes correct */
+    display: block; /* Removes extra spacing */
+}
+
+/* --- Buttons --- */
+.btn {
+    background-color: var(--btn-purple);
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease, background 0.2s;
+    display: inline-block;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    background-color: #8385C6;
+}
+
+/* --- Hero Layout --- */
+/* --- Adjust Hero Spacing --- */
+/* Since the header is now 'floating' out of the flow, we need to push 
+   the hero content down so it doesn't hide behind the bar. */
+.hero-container {
+    margin-top: 140px; /* Increased from 60px to account for the header height */
+    
+    /* Existing styles... */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 1100px;
+    flex-wrap: wrap;
+}
+
+.hero-text {
+    flex: 1;
+    min-width: 300px;
+    padding-right: 20px;
+}
+
+.hero-text h1 {
+    font-size: 4rem;
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+
+.hero-text p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+    max-width: 450px;
+    font-weight: 500;
+}
+
+.btn-hero {
+    padding: 15px 35px;
+    font-size: 1.1rem;
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 300px;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+    
+    /* 1. This makes the white background transparent */
+    mix-blend-mode: multiply; 
+    
+    /* 2. (Optional) This ensures the white is 'pure white' so it disappears completely.
+          Adjust these slightly if you see a faint box around the image. */
+    filter: brightness(1.03) contrast(1.03); 
+    border-radius: 20px; /* Just in case the image isn't transparent */
+}
+
+/* --- Topics Section --- */
+.topics-section {
+    background: white;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.topics-section h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 40px;
+    color: var(--text-dark);
+}
+
+.tags-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tag {
+    background-color: #F0F1F8; /* Light grey/purple tint for chips */
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tag i {
+    font-size: 1rem;
+    color: #444;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-container {
+        flex-direction: column-reverse; /* Puts image on top on mobile */
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .hero-text p {
+        margin: 0 auto 30px auto;
+    }
+    
+    .floating-navbar {
+        padding: 10px 20px;
+    }
+}
+
+/* --- Cards Section (White Background) --- */
+.cards-section {
+    background-color: white;
+    padding-bottom: 80px; /* Space at bottom */
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.cards-container {
+    max-width: 1200px;
+    margin: 40px auto 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 Equal Columns */
+    gap: 30px;
+}
+
+.info-card {
+    background-color: #EEF2FF; /* Using the light purple tint from Hero */
+    padding: 40px 30px;
+    border-radius: 24px;
+    text-align: center; /* Design shows centered text in cards? */
+    /* Looking closely at image 2, text looks actually Left Aligned or Center? 
+       Let's stick to Left based on standard readability, but the screenshot 
+       looks slightly centered. Let's try centered for the title, left for text. */
+    text-align: center; 
+}
+
+.info-card h3 {
+    font-size: 1.5rem;
+    color: #222;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.info-card p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+    text-align: left; /* Body text looks better left aligned usually */
+}
+
+/* --- How It Works Section (Purple Background) --- */
+.how-it-works {
+    background-color: var(--bg-purple); /* Same as hero */
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.how-it-works h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #222;
+    margin-bottom: 60px;
+}
+
+.hiw-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hiw-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 60px; /* Space between the two items in the vertical column */
+}
+
+/* Specific styling for the columns to push them closer to image if needed */
+.left-col {
+    align-items: flex-start; /* Aligns content to left */
+    padding-right: 20px;
+}
+
+.right-col {
+    align-items: flex-start;
+    padding-left: 20px;
+}
+
+.hiw-image {
+    flex: 1.2; /* Image takes slightly more space */
+    display: flex;
+    justify-content: center;
+}
+
+.hiw-image img {
+    width: 350px; /* Adjust based on your actual image size */
+    max-width: 100%;
+    
+    /* 1. This makes the white background transparent */
+    mix-blend-mode: multiply; 
+    
+    /* 2. (Optional) This ensures the white is 'pure white' so it disappears completely.
+          Adjust these slightly if you see a faint box around the image. */
+    filter: brightness(1.03) contrast(1.03); 
+}
+
+/* Feature Items (Icon + Text) */
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    text-align: left;
+}
+
+.icon-circle {
+    background-color: #9597D8; /* Or slightly darker purple/blue */
+    color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Prevents icon from squishing */
+    font-size: 1.1rem;
+}
+
+.feature-text h4 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #222;
+}
+
+.feature-text p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.4;
+    max-width: 250px;
+}
+
+/* --- Responsiveness for new sections --- */
+@media (max-width: 900px) {
+    .cards-container {
+        grid-template-columns: 1fr; /* Stack cards on tablet/mobile */
+    }
+
+    .hiw-container {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .hiw-column {
+        width: 100%;
+        gap: 30px;
+        align-items: flex-start; /* Keep text left aligned */
+    }
+    
+    .hiw-image {
+        order: -1; /* Puts image above text on mobile, optional */
+        margin-bottom: 30px;
+    }
+}
+
+/* --- App Section --- */
+.app-section {
+    background-color: var(--bg-purple); /* Continues the flow */
+    padding: 20px 20px 100px 20px; /* Less top padding to sit close to section above, more bottom padding */
+    text-align: center;
+}
+
+.app-section h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #222;
+    margin-bottom: 60px;
+    margin-top: 40px; /* Slight separation from previous section */
+}
+
+/* We reuse the flex container logic but rename it for specificity if needed */
+.app-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+/* 
+   Specific Icon Styling for this section 
+   The design uses a slightly lighter icon circle color (periwinkle vs purple)
+*/
+.icon-light {
+    background-color: #B5B7E5; /* Slightly lighter than the monkey section icons */
+}
+
+/* App Image Specifics */
+.app-image {
+    flex: 1.2;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.app-image img {
+    max-width: 100%;
+    width: 300px; /* Phone is usually slimmer */
+    /* If your image file isn't already tilted, use this transform: */
+    /* transform: rotate(-5deg); */
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.2));
+    border-radius: 40px; /* Adds curve if using a rectangular screenshot */
+}
+
+/* --- Mobile Responsiveness for App Section --- */
+@media (max-width: 900px) {
+    .app-container {
+        flex-direction: column;
+        gap: 50px;
+    }
+    
+    .app-image {
+        order: -1; /* Puts phone on top */
+        margin-bottom: 20px;
+    }
+
+    .app-image img {
+        width: 250px;
+    }
+}
+
+/* --- Stages Section --- */
+.stages-section {
+    background-color: #fff; /* White background */
+    padding: 100px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.stages-container {
+    max-width: 1100px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+/* Left Side Text */
+.stages-left {
+    flex: 1;
+    min-width: 300px;
+}
+
+.stages-left h2 {
+    font-size: 3.5rem; /* Big headline */
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 25px;
+    color: #222;
+}
+
+.stages-left p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+    max-width: 400px;
+}
+
+/* Right Side Interactive */
+.stages-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    min-width: 320px;
+}
+
+/* Image Wrapper (Negative margin to pull image on top of card) */
+.stage-image-wrapper {
+    z-index: 2;
+    margin-bottom: -50px; /* Pulls image down into card */
+    position: relative;
+    height: 220px; /* Fixed height to prevent jumping */
+    display: flex;
+    align-items: flex-end;
+}
+
+.stage-image-wrapper img {
+    width: 200px;
+    height: auto;
+    /* Optional: Mix blend mode again if image has white bg */
+    /* mix-blend-mode: multiply; */
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+}
+
+/* The Card */
+.stage-card {
+    background-color: var(--bg-purple); /* Light Lavender */
+    width: 100%;
+    max-width: 400px;
+    padding: 70px 30px 30px 30px; /* High top padding for image space */
+    border-radius: 30px;
+    text-align: center;
+}
+
+.stage-card h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 15px;
+}
+
+.stage-card p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.divider {
+    height: 1px;
+    background-color: #D1D5DB; /* Light grey line */
+    width: 100%;
+    margin: 20px 0;
+}
+
+.topics-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #222;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.stage-tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.mini-tag {
+    border: 1px solid #333; /* Outlined style as per design */
+    border-radius: 50px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+}
+
+/* Dots Navigation */
+.stage-dots {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background-color: #EEF2FF; /* Inactive color (very light) */
+    /* Actually, design shows inactive as just empty space or very light? 
+       Let's try a light purple solid for inactive, and ring for active. */
+    background-color: #E0E7FF; 
+    transition: all 0.2s;
+}
+
+.dot.active {
+    background-color: transparent;
+    border: 3px solid #9597D8; /* Ring style */
+    transform: scale(1.2);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .stages-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .stages-left p {
+        margin: 0 auto;
+    }
+    
+    .topics-label {
+        text-align: center;
+    }
+    
+    .stage-tags {
+        justify-content: center;
+    }
+}
+
+/* --- Product Section --- */
+.product-section {
+    background-color: #fff;
+    padding: 80px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.product-container {
+    max-width: 1100px;
+    width: 100%;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* 1. Thumbnails Column */
+.product-thumbs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    
+    /* Update width to match the thumbnails */
+    width: 100px;  
+    
+    flex-shrink: 0;
+}
+
+.thumb {
+    /* Update size here */
+    width: 100px;
+    height: 100px;
+    
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+/* Ensure the image fills the square perfectly without squishing */
+.thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This makes sure your rectangular monkey fits the square */
+}
+
+.thumb:hover {
+    border-color: #ddd;
+}
+
+/* Active State (Purple Border) */
+.thumb.active {
+    border-color: #9597D8;
+    box-shadow: 0 0 0 2px #EEF2FF; /* Double border effect */
+}
+
+/* 2. Main Image Column */
+.product-main-image {
+    flex: 1; /* Takes up remaining space */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+.product-main-image img {
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    /* Optional: multiply blend if needed, but standard ecommerce usually keeps it normal */
+}
+
+/* 3. Product Details Column */
+.product-details {
+    flex: 0.8; /* Slightly smaller than image area */
+    min-width: 300px;
+    padding-top: 20px;
+}
+
+.pre-order-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.product-details h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Action Row (Qty + Button) */
+.action-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    border: 1px solid #333;
+    border-radius: 50px;
+    padding: 5px 15px;
+    gap: 15px;
+    height: 48px; /* Match button height roughly */
+}
+
+.quantity-selector button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #333;
+    padding: 0 5px;
+}
+
+.quantity-selector span {
+    font-weight: 600;
+    font-size: 1.1rem;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Accordion */
+.accordion-item {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #333;
+}
+
+.accordion-content {
+    display: none; /* Hidden by default */
+    margin-top: 15px;
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.accordion-content ul {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+    .product-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .product-thumbs {
+        flex-direction: row; /* Horizontal thumbs on mobile */
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .product-details {
+        width: 100%;
+        text-align: center;
+    }
+
+    .action-row {
+        justify-content: center;
+    }
+    
+    .accordion-header {
+        justify-content: space-between; /* Keep +/- on right */
+        padding: 10px;
+        background: #f9f9f9; /* Slight bg to make it clickable area obvious on mobile */
+        border-radius: 8px;
+    }
+}
+
+/* --- Footer Section --- */
+.site-footer {
+    background-color: var(--bg-purple); /* Matches Hero background */
+    padding: 60px 20px;
+    border-top: 1px solid rgba(0,0,0,0.05); /* Subtle separator */
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Left Side */
+.footer-logo {
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.copyright {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Right Side */
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Aligns content to the right */
+    gap: 15px;
+}
+
+.footer-email {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.footer-email:hover {
+    color: var(--btn-purple);
+}
+
+.footer-socials {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-socials a {
+    color: #333;
+    font-size: 1.5rem;
+    transition: transform 0.2s, color 0.2s;
+}
+
+.footer-socials a:hover {
+    color: var(--btn-purple);
+    transform: translateY(-3px);
+}
+
+.inline-logo-svg {
+    display: inline-block;       /* Sits in line with text */
+    height: 1em;                 /* Scales relative to the font size (match text height) */
+    width: auto;                 /* Keeps aspect ratio */
+    vertical-align: -0.15em;     /* Lowers it slightly to align with text baseline */
+    margin: 0 0.1em;             /* Adds a tiny bit of breathing room on sides */
+}
+
+/* Optional: If the original logo color doesn't match the black text */
+.inline-logo-svg path {
+    fill: #222; /* Matches your header text color */
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .footer-right {
+        align-items: center; /* Center align on mobile */
+    }
+}
+
+/* --- Mobile Fixes for Header --- */
+@media (max-width: 480px) {
+    
+    /* 1. Make the navbar wider and slimmer */
+    .floating-navbar {
+        width: 95%;        /* Take up almost full width */
+        padding: 8px 15px; /* Reduce internal padding */
+        top: 15px;         /* Move it slightly higher */
+    }
+
+    /* 2. Shrink the Logo */
+    /* Target whatever logo class you used (svg, img, or text) */
+    .logo-brand svg, 
+    .logo-img,
+    .logo-link img {
+        height: 22px !important; /* Force it smaller */
+        width: auto;
+    }
+    
+    /* If you used the text logo: */
+    .logo {
+        font-size: 1rem; 
+    }
+
+    /* 3. Fix the Button ("Pre-order now") */
+    .btn-header {
+        font-size: 0.75rem;     /* Smaller text */
+        padding: 8px 14px;      /* Smaller touch target */
+        white-space: nowrap;    /* CRITICAL: Prevents text from wrapping */
+        flex-shrink: 0;         /* Prevents button from being squashed */
+    }
+}
+
+/* --- Badges --- */
+.badge-new {
+    background-color: #FEF3C7; /* Light Yellow */
+    color: #D97706; /* Dark Yellow/Orange text */
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+/* --- Hero Inline Form --- */
+.hero-form {
+    background: white;
+    padding: 6px;
+    border-radius: 50px;
+    display: flex;
+    gap: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    max-width: 420px;
+    margin-bottom: 15px;
+}
+
+.hero-form input {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    flex: 1;
+    font-family: 'Nunito', sans-serif;
+    outline: none;
+    font-size: 1rem;
+}
+
+.hero-form button {
+    background-color: var(--btn-purple);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.hero-form button:hover {
+    background-color: #8385C6;
+}
+
+.small-trust {
+    font-size: 0.85rem;
+    color: #666;
+    margin-left: 10px;
+}
+
+/* --- Waitlist Card --- */
+.waitlist-card {
+    background-color: #F9FAFB;
+    border: 1px solid #E5E7EB;
+    border-radius: 20px;
+    padding: 30px;
+    margin-top: 20px;
+}
+
+.waitlist-card h3 {
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.stack-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    background: white;
+}
+
+/* Custom Select styling wrapper */
+.select-wrapper {
+    position: relative;
+}
+.select-wrapper i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    pointer-events: none;
+    font-size: 0.8rem;
+}
+.select-wrapper select {
+    appearance: none; /* Hides default arrow */
+    cursor: pointer;
+}
+
+.full-width {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1.1rem;
+}
+
+/* Mobile Fix for Hero Form */
+@media (max-width: 500px) {
+    .hero-form {
+        flex-direction: column;
+        background: transparent;
+        box-shadow: none;
+        padding: 0;
+    }
+    .hero-form input {
+        width: 100%;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 10px;
+    }
+    .hero-form button {
+        width: 100%;
+        border-radius: 12px;
+    }
+}
+
+/* --- NEW Waitlist & Form Styles --- */
+
+/* The card container for the form */
+.waitlist-card {
+    background-color: #F8F9FC;
+    border: 1px solid #E5E7EB;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.waitlist-card h3 {
+    margin-bottom: 8px;
+    color: #222;
+    font-size: 1.3rem;
+}
+
+/* Form Layout */
+.stack-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Input Fields */
+.input-field {
+    width: 100%;
+    padding: 14px 20px;
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    background: white;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.input-field:focus {
+    border-color: var(--btn-purple);
+}
+
+/* Button Full Width */
+.full-width {
+    width: 100%;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+/* Coming Soon Badge (Hero) */
+.badge-new {
+    background-color: #FEF3C7; /* Light Yellow */
+    color: #D97706; /* Dark Yellow/Orange text */
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 900px) {
+    .product-thumbs {
+        width: 100%;       /* Full width container */
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    /* Force thumbnails to be smaller on phones so they fit in one row */
+    .thumb {
+        width: 80px;  /* Back to small size for phone */
+        height: 80px;
+    }
+}
+
+/* --- Checkbox Styling --- */
+.checkbox-wrapper {
+    display: flex;
+    align-items: flex-start; /* Aligns box to top of text */
+    gap: 12px;
+    margin: 5px 0;
+    padding: 0 5px;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    appearance: none; /* Remove default browser style */
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    background-color: white;
+    cursor: pointer;
+    display: grid;
+    place-content: center;
+    flex-shrink: 0; /* Prevents box from squishing */
+    margin-top: 2px; /* Visual alignment with text */
+    transition: all 0.2s;
+}
+
+/* Custom checkmark using CSS content */
+.checkbox-wrapper input[type="checkbox"]::before {
+    content: "\f00c"; /* FontAwesome Check Icon */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 0.8rem;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+/* Checked State */
+.checkbox-wrapper input[type="checkbox"]:checked {
+    background-color: var(--btn-purple);
+    border-color: var(--btn-purple);
+}
+
+.checkbox-wrapper input[type="checkbox"]:checked::before {
+    opacity: 1;
+}
+
+.checkbox-wrapper label {
+    font-size: 0.9rem;
+    color: #555;
+    cursor: pointer;
+    line-height: 1.4;
+    user-select: none;
+}
