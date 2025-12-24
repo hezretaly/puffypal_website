@@ -36,7 +36,7 @@
             </div>
             
             <div class="hero-image">
-                <img src="asset/monkey_1.png" alt="PuffyPal Plush Toy"> 
+                <img src="asset/monkey_1.jpeg" alt="PuffyPal Plush Toy"> 
             </div>
         </div>
     </section>
@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div class="hiw-image">
-                <img src="asset/monkey_1.png" alt="PuffyPal Features">
+                <img src="asset/monkey_1.jpeg" alt="PuffyPal Features">
             </div>
             <div class="hiw-column right-col">
                 <div class="feature-item">
@@ -136,7 +136,7 @@
                 </div>
             </div>
             <div class="hero-image">
-                <img src="asset/phone_app.png" alt="PuffyPal App Interface">
+                <img src="asset/phone_app.jpeg" alt="PuffyPal App Interface">
             </div>
             <div class="app-column right-col">
                 <div class="feature-item">
@@ -194,20 +194,20 @@
             
             <!-- Left: Thumbnail List (Unchanged) -->
             <div class="product-thumbs">
-                <div class="thumb active" onclick="changeImage(this, 'asset/front_toy.png')">
-                    <img src="asset/front_toy.png" alt="Toy from front side">
+                <div class="thumb active" onclick="changeImage(this, 'asset/front_toy.jpeg')">
+                    <img src="asset/front_toy.jpeg" alt="Toy from front side">
                 </div>
-                <div class="thumb" onclick="changeImage(this, 'asset/side_toy.png')">
-                    <img src="asset/side_toy.png" alt="Toy from left side">
+                <div class="thumb" onclick="changeImage(this, 'asset/side_toy.jpeg')">
+                    <img src="asset/side_toy.jpeg" alt="Toy from left side">
                 </div>
-                <div class="thumb" onclick="changeImage(this, 'asset/back_toy_noticket.png')">
-                    <img src="asset/back_toy_noticket.png" alt="Packaging">
+                <div class="thumb" onclick="changeImage(this, 'asset/back_toy_noticket.jpeg')">
+                    <img src="asset/back_toy_noticket.jpeg" alt="Packaging">
                 </div>
             </div>
 
             <!-- Center: Main Image (Unchanged) -->
             <div class="product-main-image">
-                <img id="main-product-img" src="asset/front_toy.png" alt="PuffyPal Main">
+                <img id="main-product-img" src="asset/front_toy.jpeg" alt="PuffyPal Main">
             </div>
 
             <!-- Right: Product Details (CHANGED TO WAITLIST) -->
@@ -428,38 +428,88 @@
         // --- Secure Single-Post Form Logic ---
 
         function validateAndNext() {
-            // 1. Get the Step 1 inputs
             const nameInput = document.getElementById('input-name');
             const emailInput = document.getElementById('input-email');
             const checkInput = document.getElementById('parent-check');
 
-            // 2. checkValidity() triggers the browser's native rules (required, email format)
+            // Check basic validity (HTML5)
             if (!nameInput.checkValidity() || !emailInput.checkValidity() || !checkInput.checkValidity()) {
-                // If invalid, show the browser's default error bubble
-                // We trigger it on the first invalid field found
                 if(!nameInput.checkValidity()) nameInput.reportValidity();
                 else if(!emailInput.checkValidity()) emailInput.reportValidity();
                 else checkInput.reportValidity();
-                return; // Stop here
+                return;
             }
 
-            // 3. If valid, hide Step 1 and show Step 2
+            // Move to next step
             document.getElementById('step-1').style.display = 'none';
             document.getElementById('step-2').style.display = 'block';
         }
 
-        function handleFinalSubmit(e) {
-            e.preventDefault(); // Stop actual page reload
+        // Updated to be ASYNC to handle network requests
+        async function handleFinalSubmit(e) {
+            e.preventDefault(); 
             
-            // 1. Collect ALL data here (Security: Single exposure)
-            // In a real app, this is where you'd do: fetch('/api/submit', { body: formData })
-            console.log("Submitting Secure Form...");
-            console.log("Name:", document.getElementById('input-name').value);
-            console.log("Email:", document.getElementById('input-email').value);
+            const action = e.submitter.value; // 'submit' or 'skip'
+            const submitBtn = e.submitter; // The button that was clicked
             
-            // 2. Hide Form, Show Success
-            document.getElementById('main-form').style.display = 'none';
-            document.getElementById('step-3').style.display = 'block';
+            // 1. Get Base Data (From Step 1 State)
+            const fullName = document.getElementById('input-name').value;
+            const email = document.getElementById('input-email').value;
+            
+            // 2. Get Survey Data (From Step 2)
+            const audienceEl = document.querySelector('input[name="audience"]:checked');
+            const hopeEl = document.querySelector('input[name="hope"]:checked');
+
+            // 3. Validation Logic (Only if clicking "Submit")
+            if (action === 'submit') {
+                if (!audienceEl || !hopeEl) {
+                    alert("Please select an option to customize your discount, or click 'Skip'.");
+                    return; // Stop. Do not send request.
+                }
+            }
+
+            // 4. Construct Payload
+            // If skipped, audience/hope will be null
+            const payload = {
+                full_name: fullName,
+                email: email,
+                target_audience: audienceEl ? audienceEl.value : null,
+                primary_hope: hopeEl ? hopeEl.value : null
+            };
+
+            // 5. UX: Show Loading State
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = "Sending...";
+            submitBtn.disabled = true;
+
+            try {
+                // 6. Network Request to Same Server (Relative Path)
+                const response = await fetch('/waitlist', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    // 7. Success! Show Step 3
+                    document.getElementById('main-form').style.display = 'none';
+                    document.getElementById('step-3').style.display = 'block';
+                } else {
+                    // Server returned an error (e.g., 400 or 500)
+                    alert("Something went wrong. Please try again.");
+                    submitBtn.innerText = originalText;
+                    submitBtn.disabled = false;
+                }
+
+            } catch (error) {
+                // Network error (e.g., offline)
+                console.error("Network Error:", error);
+                alert("Unable to connect to the server.");
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            }
         }
     </script>
 </body>
