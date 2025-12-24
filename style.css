@@ -1277,3 +1277,19 @@ body {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* --- Skip Link Styling --- */
+.text-link-skip {
+    background: none;
+    border: none;
+    font-family: 'Nunito', sans-serif;
+    color: #888; /* Grey color makes it less attractive */
+    text-decoration: underline;
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.text-link-skip:hover {
+    color: #555;
+}

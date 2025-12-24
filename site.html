@@ -219,39 +219,40 @@
                 <!-- Changed Price to MSRP -->
                 <p class="price">$79</p>
 
-                <!-- NEW: Waitlist Card with Progressive Profiling -->
+                <!-- NEW: Secure Single-Submission Waitlist -->
                 <div class="waitlist-card">
                     
-                    <!-- STEP 1: The Contact Form -->
-                    <div id="step-1">
-                        <h3>The Smartest, Safest Companion.</h3>
-                        <p class="waitlist-subtext">
-                            We’re finalizing the magic. Join the priority waitlist to secure early access, and lock in 20% off.
-                        </p>
+                    <!-- THE SINGLE FORM (Wraps both steps) -->
+                    <form id="main-form" class="stack-form" onsubmit="handleFinalSubmit(event)">
                         
-                        <form class="stack-form" onsubmit="goToStep2(event)">
-                            <input id="user-name" class="input-field" type="text" placeholder="Your Name" required>
-                            <input class="input-field" type="email" placeholder="Enter your email address" required>
+                        <!-- STEP 1: Contact Info -->
+                        <div id="step-1">
+                            <h3>The Smartest, Safest Companion.</h3>
+                            <p class="waitlist-subtext">
+                                We’re finalizing the magic. Join the priority waitlist to secure early access, lock in 20% off, and receive our parents' safety guide.
+                            </p>
+                            
+                            <!-- Inputs -->
+                            <input id="input-name" class="input-field" type="text" placeholder="Your Name" required>
+                            <input id="input-email" class="input-field" type="email" placeholder="Enter your email address" required>
                             
                             <div class="checkbox-wrapper">
                                 <input type="checkbox" id="parent-check" required>
                                 <label for="parent-check">I am a parent or guardian over 18.</label>
                             </div>
 
-                            <button type="submit" class="btn btn-hero full-width">Join the Waitlist</button>
-                        </form>
-                    </div>
+                            <!-- BUTTON: Type="button" so it doesn't submit yet, just runs JS -->
+                            <button type="button" class="btn btn-hero full-width" onclick="validateAndNext()">Join the Waitlist</button>
+                        </div>
 
-                    <!-- STEP 2: The Survey Form (Hidden Initially) -->
-                    <div id="step-2" style="display: none; animation: fadeIn 0.5s ease;">
-                        <h3>You’re on the list! 🎉</h3>
-                        <p class="waitlist-subtext">
-                            We’ve reserved your 20% discount. To help us customize PuffyPal perfectly for your family, could you answer 2 quick questions?
-                        </p>
+                        <!-- STEP 2: The Survey (Hidden Initially) -->
+                        <div id="step-2" style="display: none; animation: fadeIn 0.5s ease;">
+                            <h3>You’re on the list! 🎉</h3>
+                            <p class="waitlist-subtext">
+                                We’ve reserved your 20% discount. To help us customize PuffyPal perfectly for your family, could you answer 2 quick questions?
+                            </p>
 
-                        <form class="stack-form" onsubmit="finishForm(event)">
-                            
-                            <!-- Question 1 -->
+                            <!-- Question 1 (Removed 'required' to make it skippable) -->
                             <label class="survey-label">Who is this new friend for?</label>
                             <div class="survey-options">
                                 <label class="radio-card">
@@ -276,7 +277,7 @@
                                 </label>
                             </div>
 
-                            <!-- Question 2 -->
+                            <!-- Question 2 (Removed 'required') -->
                             <label class="survey-label" style="margin-top:15px;">What is your #1 hope for an AI toy?</label>
                             <div class="survey-options">
                                 <label class="radio-card">
@@ -297,17 +298,25 @@
                                 </label>
                             </div>
 
-                            <button type="submit" class="btn btn-hero full-width">Submit & Lock in Discount</button>
-                        </form>
-                    </div>
+                            <!-- MAIN SUBMIT BUTTON -->
+                            <button type="submit" name="submit_action" value="submit" class="btn btn-hero full-width">Submit & Lock in Discount</button>
+                            
+                            <!-- SKIP LINK (Subtle) -->
+                            <div style="text-align: center; margin-top: 10px;">
+                                <button type="submit" name="submit_action" value="skip" formnovalidate class="text-link-skip">Skip for now</button>
+                            </div>
+                        </div>
 
-                    <!-- STEP 3: Final Success Message (Hidden Initially) -->
+                    </form>
+
+                    <!-- STEP 3: Success Message (Outside the form) -->
                     <div id="step-3" style="display:none; text-align:center; padding: 20px 0; animation: fadeIn 0.5s ease;">
                         <div style="font-size: 3rem; color: #10B981; margin-bottom: 10px;"><i class="fa-solid fa-circle-check"></i></div>
                         <h3 style="margin-bottom:10px;">All Set!</h3>
-                        <p style="color:#555;">Your preferences have been saved and your discount is locked.</p>
+                        <p style="color:#555;">Your spot is secured and your discount is locked.</p>
                         <p style="font-size: 0.85em; margin-top: 15px; color:#888;">Keep an eye on your inbox!</p>
                     </div>
+
                 </div>
 
                 <p style="font-size: 0.85em; margin-top: 15px; color: #888;">Expected launch: Early 2026</p>
@@ -416,24 +425,40 @@
             }
         }
 
-        // --- NEW JS for Waitlist Form ---
-       function goToStep2(e) {
-            e.preventDefault(); // 1. STOPS the page from reloading
-            
-            // 2. Hide Step 1
+        // --- Secure Single-Post Form Logic ---
+
+        function validateAndNext() {
+            // 1. Get the Step 1 inputs
+            const nameInput = document.getElementById('input-name');
+            const emailInput = document.getElementById('input-email');
+            const checkInput = document.getElementById('parent-check');
+
+            // 2. checkValidity() triggers the browser's native rules (required, email format)
+            if (!nameInput.checkValidity() || !emailInput.checkValidity() || !checkInput.checkValidity()) {
+                // If invalid, show the browser's default error bubble
+                // We trigger it on the first invalid field found
+                if(!nameInput.checkValidity()) nameInput.reportValidity();
+                else if(!emailInput.checkValidity()) emailInput.reportValidity();
+                else checkInput.reportValidity();
+                return; // Stop here
+            }
+
+            // 3. If valid, hide Step 1 and show Step 2
             document.getElementById('step-1').style.display = 'none';
-            
-            // 3. Show Step 2
             document.getElementById('step-2').style.display = 'block';
         }
 
-        function finishForm(e) {
-            e.preventDefault(); // Stops reload
+        function handleFinalSubmit(e) {
+            e.preventDefault(); // Stop actual page reload
             
-            // Hide Step 2
-            document.getElementById('step-2').style.display = 'none';
+            // 1. Collect ALL data here (Security: Single exposure)
+            // In a real app, this is where you'd do: fetch('/api/submit', { body: formData })
+            console.log("Submitting Secure Form...");
+            console.log("Name:", document.getElementById('input-name').value);
+            console.log("Email:", document.getElementById('input-email').value);
             
-            // Show Step 3
+            // 2. Hide Form, Show Success
+            document.getElementById('main-form').style.display = 'none';
             document.getElementById('step-3').style.display = 'block';
         }
     </script>
